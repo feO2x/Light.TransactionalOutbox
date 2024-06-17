@@ -51,7 +51,7 @@ public sealed class OutboxProcessor<TOutboxItem> : IOutboxProcessor
         }
 
         // To not keep callers waiting indefinitely, we use a timeout to access the semaphore.
-        // The default value is a maximum wait time of 500 milliseconds.
+        // The default value is a maximum wait time of 300 milliseconds.
         if (!await _semaphore.WaitAsync(timeoutInMilliseconds, cancellationToken).ConfigureAwait(false))
         {
             return false;
@@ -61,7 +61,7 @@ public sealed class OutboxProcessor<TOutboxItem> : IOutboxProcessor
         // the semaphore is released even if an exception occurs.
         try
         {
-            // Here is the second part of the double check lock.
+            // Here is the second part of the double-check lock.
             if (_currentTask is not null)
             {
                 return false;
@@ -80,15 +80,18 @@ public sealed class OutboxProcessor<TOutboxItem> : IOutboxProcessor
 
     public Task WaitForOutboxCompletionAsync()
     {
+        // We do not need to enter the semaphore here because we simply copy the current task to a local variable.
+        // This is an atomic operations on x86, x64, and ARM processors.
         var currentTask = _currentTask;
         return currentTask ?? Task.CompletedTask;
     }
 
     private async void HandleCurrentTask(Task task)
     {
-        // This method is async void because we do not want callers to wait until the whole outbox processing is done.
-        // This is why the await task.ConfigureAwait(false) call is wrapped in a try-catch block so that we do not lose
-        // any exceptions that might occur during the processing.
+        // This method is async void because we do not want callers of TryTriggerOutboxAsync to wait until the whole
+        // outbox processing is done. The calling method cannot track the task associated with this async method and
+        // thus returns early. To accomodate this, the await task.ConfigureAwait(false) call is wrapped in a try-catch
+        // block so that we do not lose any exceptions that might occur during the processing.
         try
         {
             await task.ConfigureAwait(false);
