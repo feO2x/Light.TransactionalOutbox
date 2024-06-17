@@ -168,8 +168,11 @@ public sealed class OutboxProcessor<TOutboxItem> : IOutboxProcessor
             // No matter if all or only a part of the outbox items have been published,
             // we try to remove the successfully published ones
             // from the database to avoid sending them again in the future.
-            await session.RemoveOutboxItemsAsync(_successfullyProcessedOutboxItems, cancellationToken);
-            await session.SaveChangesAsync(cancellationToken);
+            if (_successfullyProcessedOutboxItems.Count > 0)
+            {
+                await session.RemoveOutboxItemsAsync(_successfullyProcessedOutboxItems, cancellationToken);
+                await session.SaveChangesAsync(cancellationToken);
+            }
         }
     }
 
