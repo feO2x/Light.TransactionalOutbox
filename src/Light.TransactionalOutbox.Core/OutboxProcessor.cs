@@ -10,7 +10,7 @@ using Polly;
 
 namespace Light.TransactionalOutbox.Core;
 
-public sealed class OutboxProcessor<TOutboxItem> : IOutboxProcessor
+public sealed class OutboxProcessor<TOutboxItem> : IOutboxProcessor, IDisposable
 {
     private readonly ILogger<OutboxProcessor<TOutboxItem>> _logger;
     private readonly OutboxProcessorOptions _options;
@@ -202,4 +202,6 @@ public sealed class OutboxProcessor<TOutboxItem> : IOutboxProcessor
             OutboxItemPublished(logger, outboxItem, null);
         // ReSharper restore StaticMemberInGenericType
     }
+
+    public void Dispose() => _semaphore.Dispose();
 }
