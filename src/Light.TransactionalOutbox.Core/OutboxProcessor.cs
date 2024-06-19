@@ -7,11 +7,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
+using Polly.Registry;
 
 namespace Light.TransactionalOutbox.Core;
 
 public sealed class OutboxProcessor<TOutboxItem> : IOutboxProcessor, IDisposable
 {
+    public const string ResiliencePipelineKey = "OutboxProcessorResiliencePipeline";
     private readonly ILogger<OutboxProcessor<TOutboxItem>> _logger;
     private readonly OutboxProcessorOptions _options;
     private readonly Func<OutboxProcessor<TOutboxItem>, CancellationToken, ValueTask> _processAsyncDelegate;
@@ -22,13 +24,13 @@ public sealed class OutboxProcessor<TOutboxItem> : IOutboxProcessor, IDisposable
     private Task? _currentTask;
 
     public OutboxProcessor(
-        ResiliencePipeline resiliencePipeline,
+        ResiliencePipelineProvider<string> resiliencePipelineProvider,
         IServiceScopeFactory serviceScopeFactory,
         IOptions<OutboxProcessorOptions> options,
         ILogger<OutboxProcessor<TOutboxItem>> logger
     )
     {
-        _resiliencePipeline = resiliencePipeline.MustNotBeNull();
+        _resiliencePipeline = resiliencePipelineProvider.MustNotBeNull().GetPipeline(ResiliencePipelineKey);
         _serviceScopeFactory = serviceScopeFactory.MustNotBeNull();
         _logger = logger.MustNotBeNull();
         _options = options.MustNotBeNull().Value;
@@ -110,15 +112,18 @@ public sealed class OutboxProcessor<TOutboxItem> : IOutboxProcessor, IDisposable
 
     private async ValueTask ProcessAsync(CancellationToken cancellationToken)
     {
-        await using var scope = _serviceScopeFactory.CreateAsyncScope();
-        var session = scope.ServiceProvider.GetRequiredService<IOutboxProcessorSession<TOutboxItem>>();
-        var outboxItems = await session.LoadNextOutboxItemsAsync(_options.BatchSize, cancellationToken);
-        if (outboxItems.Count == 0)
+        while (true)
         {
-            return;
-        }
+            await using var scope = _serviceScopeFactory.CreateAsyncScope();
+            var session = scope.ServiceProvider.GetRequiredService<IOutboxProcessorSession<TOutboxItem>>();
+            var outboxItems = await session.LoadNextOutboxItemsAsync(_options.BatchSize, cancellationToken);
+            if (outboxItems.Count == 0)
+            {
+                return;
+            }
 
-        await SendOutboxItemsAsync(scope, session, outboxItems, cancellationToken);
+            await SendOutboxItemsAsync(scope, session, outboxItems, cancellationToken);
+        }
     }
 
     private Task SendOutboxItemsAsync(
