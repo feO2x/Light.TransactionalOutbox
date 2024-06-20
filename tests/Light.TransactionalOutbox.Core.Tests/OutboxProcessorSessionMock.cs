@@ -21,7 +21,7 @@ public sealed class OutboxProcessorSessionMock : AsyncSessionMock, IOutboxProces
 
     public Task<List<OutboxItem>> LoadNextOutboxItemsAsync(int batchSize, CancellationToken cancellationToken = default)
     {
-        if (Failure == OutboxFailure.ErrorAtLoadNextOutboxItems)
+        if (Failure.HasFlagValue(OutboxFailure.ErrorAtLoadNextOutboxItems))
         {
             throw new IOException("LoadNextOutboxItems failed");
         }
@@ -34,7 +34,7 @@ public sealed class OutboxProcessorSessionMock : AsyncSessionMock, IOutboxProces
         CancellationToken cancellationToken = default
     )
     {
-        if (Failure == OutboxFailure.ErrorAtRemoveOutboxItems)
+        if (Failure.HasFlagValue(OutboxFailure.ErrorAtRemoveOutboxItems))
         {
             throw new IOException("RemoveOutboxItems failed");
         }
@@ -49,7 +49,7 @@ public sealed class OutboxProcessorSessionMock : AsyncSessionMock, IOutboxProces
 
     public new Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        if (Failure == OutboxFailure.ErrorAtSaveChanges)
+        if (Failure.HasFlagValue(OutboxFailure.ErrorAtSaveChanges))
         {
             throw new IOException("SaveChanges failed");
         }
