@@ -7,11 +7,11 @@ using Light.DataAccessMocks;
 
 namespace Light.TransactionalOutbox.Core.Tests;
 
-public sealed class OutboxProcessorSessionMock : AsyncSessionMock, IOutboxProcessorSession<OutboxItem>
+public sealed class OutboxProcessorSessionMock : AsyncSessionMock, IOutboxProcessorSession<DefaultOutboxItem>
 {
-    private readonly List<OutboxItem> _outboxItems;
+    private readonly List<DefaultOutboxItem> _outboxItems;
 
-    public OutboxProcessorSessionMock(List<OutboxItem> outboxItems, OutboxFailure failure)
+    public OutboxProcessorSessionMock(List<DefaultOutboxItem> outboxItems, OutboxFailure failure)
     {
         _outboxItems = outboxItems;
         Failure = failure;
@@ -19,7 +19,7 @@ public sealed class OutboxProcessorSessionMock : AsyncSessionMock, IOutboxProces
 
     public OutboxFailure Failure { get; }
 
-    public Task<List<OutboxItem>> LoadNextOutboxItemsAsync(int batchSize, CancellationToken cancellationToken = default)
+    public Task<List<DefaultOutboxItem>> LoadNextOutboxItemsAsync(int batchSize, CancellationToken cancellationToken = default)
     {
         if (Failure.HasFlagValue(OutboxFailure.ErrorAtLoadNextOutboxItems))
         {
@@ -30,7 +30,7 @@ public sealed class OutboxProcessorSessionMock : AsyncSessionMock, IOutboxProces
     }
 
     public Task RemoveOutboxItemsAsync(
-        List<OutboxItem> successfullyProcessedOutboxItems,
+        List<DefaultOutboxItem> successfullyProcessedOutboxItems,
         CancellationToken cancellationToken = default
     )
     {

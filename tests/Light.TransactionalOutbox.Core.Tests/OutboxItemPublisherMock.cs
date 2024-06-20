@@ -7,14 +7,14 @@ using FluentAssertions;
 
 namespace Light.TransactionalOutbox.Core.Tests;
 
-public sealed class OutboxItemPublisherMock : IOutboxItemPublisher<OutboxItem>
+public sealed class OutboxItemPublisherMock : IOutboxItemPublisher<DefaultOutboxItem>
 {
     private readonly OutboxFailureContext _failureContext;
-    private readonly List<OutboxItem> _receivedOutboxItems = new ();
+    private readonly List<DefaultOutboxItem> _receivedOutboxItems = new ();
 
     public OutboxItemPublisherMock(OutboxFailureContext failureContext) => _failureContext = failureContext;
 
-    public Task PublishOutboxItemAsync(OutboxItem outboxItem, CancellationToken cancellationToken = default)
+    public Task PublishOutboxItemAsync(DefaultOutboxItem outboxItem, CancellationToken cancellationToken = default)
     {
         var currentFailure = _failureContext.CurrentFailure;
         if (currentFailure.HasFlagValue(OutboxFailure.ErrorAtPublishOutboxItem))
@@ -26,7 +26,7 @@ public sealed class OutboxItemPublisherMock : IOutboxItemPublisher<OutboxItem>
         return Task.CompletedTask;
     }
 
-    public OutboxItemPublisherMock ShouldHaveReceivedAtLeastOnce(List<OutboxItem> outboxItems)
+    public OutboxItemPublisherMock ShouldHaveReceivedAtLeastOnce(List<DefaultOutboxItem> outboxItems)
     {
         outboxItems.Should().Equal(_receivedOutboxItems.Distinct());
         return this;

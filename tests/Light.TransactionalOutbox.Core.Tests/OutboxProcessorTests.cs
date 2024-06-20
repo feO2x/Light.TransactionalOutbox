@@ -43,7 +43,7 @@ public sealed class OutboxProcessorTests : IAsyncLifetime
 
     private readonly OutboxFailureContext _failureContext;
     private readonly OutboxItemPublisherMock _outboxItemPublisher;
-    private readonly OutboxProcessor<OutboxItem> _outboxProcessor;
+    private readonly OutboxProcessor<DefaultOutboxItem> _outboxProcessor;
     private readonly ServiceProvider _serviceProvider;
     private readonly OutboxProcessorSessionMockFactory _sessionFactory;
 
@@ -66,7 +66,7 @@ public sealed class OutboxProcessorTests : IAsyncLifetime
            .AddSingleton<IConfiguration>(configuration)
            .AddSingleton(TimeProvider.System)
            .AddSingleton<OutboxFailureContext>()
-           .AddOutboxProcessor<OutboxItem>(registerDefaultResiliencePipeline: false)
+           .AddOutboxProcessor<DefaultOutboxItem>(registerDefaultResiliencePipeline: false)
            .AddResiliencePipeline(
                 OutboxConstants.ResiliencePipelineKey,
                 pipelineBuilder => pipelineBuilder.AddRetry(
@@ -78,10 +78,10 @@ public sealed class OutboxProcessorTests : IAsyncLifetime
                     }
                 )
             )
-           .AddScoped<IOutboxProcessorSession<OutboxItem>>(_ => _sessionFactory.Create())
-           .AddSingleton<IOutboxItemPublisher<OutboxItem>>(_outboxItemPublisher)
+           .AddScoped<IOutboxProcessorSession<DefaultOutboxItem>>(_ => _sessionFactory.Create())
+           .AddSingleton<IOutboxItemPublisher<DefaultOutboxItem>>(_outboxItemPublisher)
            .BuildServiceProvider();
-        _outboxProcessor = _serviceProvider.GetRequiredService<OutboxProcessor<OutboxItem>>();
+        _outboxProcessor = _serviceProvider.GetRequiredService<OutboxProcessor<DefaultOutboxItem>>();
     }
 
     public Task InitializeAsync() => Task.CompletedTask;
@@ -120,13 +120,13 @@ public sealed class OutboxProcessorTests : IAsyncLifetime
         _outboxItemPublisher.ShouldHaveReceivedAtLeastOnce(outboxItems);
     }
 
-    private List<OutboxItem> CreateOutboxItems(int amount)
+    private List<DefaultOutboxItem> CreateOutboxItems(int amount)
     {
         var timeProvider = _serviceProvider.GetRequiredService<TimeProvider>();
-        var outboxItems = new List<OutboxItem>(amount);
+        var outboxItems = new List<DefaultOutboxItem>(amount);
         for (var i = 0; i < amount; i++)
         {
-            var item = new OutboxItem
+            var item = new DefaultOutboxItem
             {
                 Id = i + 1,
                 Type = nameof(MyMessage),

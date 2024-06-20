@@ -13,7 +13,7 @@ public sealed class OutboxProcessorSessionMockFactory
         _failureContext = failureContext;
     }
     
-    public List<OutboxItem> OutboxItems { get; } = new ();
+    public List<DefaultOutboxItem> OutboxItems { get; } = new ();
     
     public OutboxProcessorSessionMock Create()
     {

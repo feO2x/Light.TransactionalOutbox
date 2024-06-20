@@ -3,7 +3,7 @@ using Light.SharedCore.Entities;
 
 namespace Light.TransactionalOutbox.Core;
 
-public class OutboxItem : Int64Entity<OutboxItem>
+public class DefaultOutboxItem : Int64Entity<DefaultOutboxItem>
 {
     public string Type { get; set; } = string.Empty;
     public Guid CorrelationId { get; set; }
