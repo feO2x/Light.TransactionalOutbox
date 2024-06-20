@@ -1,0 +1,3 @@
+namespace Light.TransactionalOutbox.EntityFrameworkCore;
+
+public sealed record LoadNextOutboxItemsInfo(string SchemaQualifiedTableName, string CreatedAtUtcColumnName);

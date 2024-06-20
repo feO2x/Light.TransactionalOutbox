@@ -10,7 +10,7 @@ namespace Light.TransactionalOutbox.EntityFrameworkCore;
 public sealed class EfOutboxProcessorSession<TDbContext, TOutboxItem> : EfAsyncSession<TDbContext>.WithTransaction,
                                                                         IOutboxProcessorSession<TOutboxItem>
     where TDbContext : DbContext, IHasOutboxItems<TOutboxItem>
-    where TOutboxItem : class
+    where TOutboxItem : class, IHasCreatedAtUtc
 {
     private readonly ILoadOutboxItemsStrategy<TDbContext, TOutboxItem> _loadStrategy;
 
