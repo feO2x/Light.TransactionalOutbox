@@ -4,6 +4,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
+using Polly.Retry;
 using Serilog;
 using Xunit;
 using Xunit.Abstractions;
@@ -64,12 +66,22 @@ public sealed class OutboxProcessorTests : IAsyncLifetime
            .AddSingleton<IConfiguration>(configuration)
            .AddSingleton(TimeProvider.System)
            .AddSingleton<OutboxFailureContext>()
-           .AddOutboxProcessor<OutboxItem>()
+           .AddOutboxProcessor<OutboxItem>(registerDefaultResiliencePipeline: false)
+           .AddResiliencePipeline(
+                OutboxConstants.ResiliencePipelineKey,
+                pipelineBuilder => pipelineBuilder.AddRetry(
+                    new RetryStrategyOptions
+                    {
+                        MaxRetryAttempts = int.MaxValue,
+                        Delay = TimeSpan.Zero,
+                        BackoffType = DelayBackoffType.Constant
+                    }
+                )
+            )
            .AddScoped<IOutboxProcessorSession<OutboxItem>>(_ => _sessionFactory.Create())
            .AddSingleton<IOutboxItemPublisher<OutboxItem>>(_outboxItemPublisher)
            .BuildServiceProvider();
         _outboxProcessor = _serviceProvider.GetRequiredService<OutboxProcessor<OutboxItem>>();
-        _serviceProvider.GetRequiredService<RetryDelayGenerator>().OverriddenDelay = TimeSpan.Zero;
     }
 
     public Task InitializeAsync() => Task.CompletedTask;

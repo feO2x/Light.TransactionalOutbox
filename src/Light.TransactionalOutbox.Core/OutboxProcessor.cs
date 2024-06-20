@@ -13,7 +13,6 @@ namespace Light.TransactionalOutbox.Core;
 
 public sealed class OutboxProcessor<TOutboxItem> : IOutboxProcessor, IDisposable
 {
-    public const string ResiliencePipelineKey = "OutboxProcessorResiliencePipeline";
     private readonly ILogger<OutboxProcessor<TOutboxItem>> _logger;
     private readonly OutboxProcessorOptions _options;
     private readonly Func<OutboxProcessor<TOutboxItem>, CancellationToken, ValueTask> _processAsyncDelegate;
@@ -30,7 +29,9 @@ public sealed class OutboxProcessor<TOutboxItem> : IOutboxProcessor, IDisposable
         ILogger<OutboxProcessor<TOutboxItem>> logger
     )
     {
-        _resiliencePipeline = resiliencePipelineProvider.MustNotBeNull().GetPipeline(ResiliencePipelineKey);
+        _resiliencePipeline = resiliencePipelineProvider
+           .MustNotBeNull()
+           .GetPipeline(OutboxConstants.ResiliencePipelineKey);
         _serviceScopeFactory = serviceScopeFactory.MustNotBeNull();
         _logger = logger.MustNotBeNull();
         _options = options.MustNotBeNull().Value;

@@ -15,11 +15,10 @@ public static class TransactionalOutboxModule
     {
         if (registerDefaultResiliencePipeline)
         {
-            services.AddResiliencePipeline<string>(
-                OutboxProcessor<TOutboxItem>.ResiliencePipelineKey,
-                (pipelineBuilder, context) =>
+            services.AddResiliencePipeline(
+                OutboxConstants.ResiliencePipelineKey,
+                pipelineBuilder =>
                 {
-                    var retryDelayGenerator = context.ServiceProvider.GetRequiredService<RetryDelayGenerator>();
                     pipelineBuilder
                        .AddRetry(
                             new RetryStrategyOptions
@@ -28,8 +27,7 @@ public static class TransactionalOutboxModule
                                 MaxDelay = TimeSpan.FromMinutes(1),
                                 MaxRetryAttempts = int.MaxValue,
                                 BackoffType = DelayBackoffType.Linear,
-                                UseJitter = true,
-                                DelayGenerator = retryDelayGenerator.GenerateDelay
+                                UseJitter = true
                             }
                         );
                 }
@@ -46,7 +44,6 @@ public static class TransactionalOutboxModule
            .AddSingleton<OutboxProcessor<TOutboxItem>>()
            .AddSingleton<IOutboxProcessor>(sp => sp.GetRequiredService<OutboxProcessor<TOutboxItem>>())
            .AddSingleton<IOutboxTrigger>(sp => sp.GetRequiredService<OutboxProcessor<TOutboxItem>>())
-           .AddSingleton<IAwaitOutboxCompletion>(sp => sp.GetRequiredService<OutboxProcessor<TOutboxItem>>())
-           .AddSingleton<RetryDelayGenerator>();
+           .AddSingleton<IAwaitOutboxCompletion>(sp => sp.GetRequiredService<OutboxProcessor<TOutboxItem>>());
     }
 }
