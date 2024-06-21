@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Light.DatabaseAccess.EntityFrameworkCore;
 using Light.TransactionalOutbox.Core;
+using Light.TransactionalOutbox.Core.OutboxProcessing;
 using Microsoft.EntityFrameworkCore;
 
 namespace Light.TransactionalOutbox.EntityFrameworkCore;

@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Light.DataAccessMocks;
+using Light.TransactionalOutbox.Core.OutboxProcessing;
 
-namespace Light.TransactionalOutbox.Core.Tests;
+namespace Light.TransactionalOutbox.Core.Tests.OutboxProcessing;
 
 public sealed class OutboxProcessorSessionMock : AsyncSessionMock, IOutboxProcessorSession<DefaultOutboxItem>
 {

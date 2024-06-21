@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Light.TransactionalOutbox.Core;
+namespace Light.TransactionalOutbox.Core.OutboxProcessing;
 
 public interface IOutboxItemBatchPublisher<TOutboxItem>
 {

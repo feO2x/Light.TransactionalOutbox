@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.Options;
 
-namespace Light.TransactionalOutbox.Core;
+namespace Light.TransactionalOutbox.Core.OutboxProcessing;
 
 public class OutboxProcessorOptions
 {

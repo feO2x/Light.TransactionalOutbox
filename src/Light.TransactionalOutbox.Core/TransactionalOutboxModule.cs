@@ -1,4 +1,5 @@
 ﻿using System;
+using Light.TransactionalOutbox.Core.OutboxProcessing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Polly;
@@ -41,7 +42,7 @@ public static class TransactionalOutboxModule
            .ValidateOnStart();
 
         return services
-           .AddSingleton<IValidateOptions<OutboxProcessorOptions>, OutboxProcessorOptionsValidator>()
+           .AddSingleton<IValidateOptions<OutboxProcessorOptions>, OutboxProcessing.OutboxProcessorOptionsValidator>()
            .AddSingleton<OutboxProcessor<TOutboxItem>>()
            .AddSingleton<IOutboxProcessor>(sp => sp.GetRequiredService<OutboxProcessor<TOutboxItem>>())
            .AddSingleton<IOutboxTrigger>(sp => sp.GetRequiredService<OutboxProcessor<TOutboxItem>>())

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Light.TransactionalOutbox.Core.OutboxProcessing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
@@ -10,7 +11,7 @@ using Serilog;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Light.TransactionalOutbox.Core.Tests;
+namespace Light.TransactionalOutbox.Core.Tests.OutboxProcessing;
 
 public sealed class OutboxProcessorTests : IAsyncLifetime
 {

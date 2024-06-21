@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Light.TransactionalOutbox.Core.Tests;
+namespace Light.TransactionalOutbox.Core.Tests.OutboxProcessing;
 
 public sealed class OutboxFailureContext
 {

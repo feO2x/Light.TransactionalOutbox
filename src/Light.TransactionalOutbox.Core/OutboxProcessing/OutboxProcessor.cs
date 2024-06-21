@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Registry;
 
-namespace Light.TransactionalOutbox.Core;
+namespace Light.TransactionalOutbox.Core.OutboxProcessing;
 
 public sealed class OutboxProcessor<TOutboxItem> : IOutboxProcessor, IDisposable
 {

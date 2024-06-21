@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Light.SharedCore.DatabaseAccessAbstractions;
 
-namespace Light.TransactionalOutbox.Core;
+namespace Light.TransactionalOutbox.Core.OutboxProcessing;
 
 public interface IOutboxProcessorSession<TOutboxItem> : IAsyncSession
 {
