@@ -7,14 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="IsExternalInit" PrivateAssets="all" Condition="'$(TargetFramework)' != 'net8.0'" />                
         <PackageReference Include="Light.SharedCore" />
+        <PackageReference Include="Nullable" PrivateAssets="all" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
-        <PackageReference Include="Polly.Extensions" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
         <PackageReference Include="Microsoft.Extensions.Options" />
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
         <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" />
+        <PackageReference Include="Polly.Extensions" />
+        <PackageReference Include="Required" PrivateAssets="all" Condition="'$(TargetFramework)' != 'net8.0'" />
+        <PackageReference Include="System.Text.Json" />
     </ItemGroup>
 
 </Project>

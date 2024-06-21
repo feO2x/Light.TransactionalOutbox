@@ -5,8 +5,8 @@ namespace Light.TransactionalOutbox.Core;
 
 public class DefaultOutboxItem : Int64Entity<DefaultOutboxItem>, IHasCreatedAtUtc
 {
-    public string Type { get; set; } = string.Empty;
-    public Guid CorrelationId { get; set; }
-    public DateTime CreatedAtUtc { get; set; }
-    public string JsonPayload { get; set; } = string.Empty;
+    public required string MessageType { get; init; }
+    public required Guid CorrelationId { get; init; }
+    public required DateTime CreatedAtUtc { get; init; }
+    public required string MessageAsJson { get; init; }
 }

@@ -130,8 +130,8 @@ public sealed class OutboxProcessorTests : IAsyncLifetime
             var item = new DefaultOutboxItem
             {
                 Id = i + 1,
-                Type = nameof(MyMessage),
-                JsonPayload = JsonSerializer.Serialize(new MyMessage(Guid.NewGuid(), $"Message Content {i + 1}")),
+                MessageType = nameof(MyMessage),
+                MessageAsJson = JsonSerializer.Serialize(new MyMessage(Guid.NewGuid(), $"Message Content {i + 1}")),
                 CreatedAtUtc = timeProvider.GetUtcNow().UtcDateTime,
                 CorrelationId = Guid.NewGuid()
             };
