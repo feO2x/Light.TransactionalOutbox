@@ -13,6 +13,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Light.TransactionalOutbox.E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFrameworkCore", "EntityFrameworkCore", "{9CA3A46A-A5FF-495D-A9A2-17A18969594A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Light.TransactionalOutbox.EntityFrameworkCore.Tests", "tests\DatabaseAdapters\Light.TransactionalOutbox.EntityFrameworkCore.Tests\Light.TransactionalOutbox.EntityFrameworkCore.Tests.csproj", "{0BC379B6-D871-49CF-80C5-FC41E147A674}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{6028034D-C44B-45DB-84B8-E26145FEE20B}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BA55DD1E-A45D-40DA-B6E7-72412D85B419}"
+	ProjectSection(SolutionItems) = preProject
+		tests\Directory.Build.props = tests\Directory.Build.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,9 +48,15 @@ Global
 		{AC032B8D-9929-461B-9910-7A3BEB47725F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC032B8D-9929-461B-9910-7A3BEB47725F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC032B8D-9929-461B-9910-7A3BEB47725F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BC379B6-D871-49CF-80C5-FC41E147A674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BC379B6-D871-49CF-80C5-FC41E147A674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BC379B6-D871-49CF-80C5-FC41E147A674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BC379B6-D871-49CF-80C5-FC41E147A674}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9CA3A46A-A5FF-495D-A9A2-17A18969594A} = {109A1CA6-0D71-46C8-9104-155854121DE2}
 		{AC032B8D-9929-461B-9910-7A3BEB47725F} = {9CA3A46A-A5FF-495D-A9A2-17A18969594A}
+		{0BC379B6-D871-49CF-80C5-FC41E147A674} = {9CA3A46A-A5FF-495D-A9A2-17A18969594A}
+		{BA55DD1E-A45D-40DA-B6E7-72412D85B419} = {6028034D-C44B-45DB-84B8-E26145FEE20B}
 	EndGlobalSection
 EndGlobal

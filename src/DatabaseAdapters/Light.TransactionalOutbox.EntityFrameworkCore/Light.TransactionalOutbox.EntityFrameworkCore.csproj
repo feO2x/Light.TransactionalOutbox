@@ -7,7 +7,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Light.TransactionalOutbox.Core\Light.TransactionalOutbox.Core.csproj" />
-        <PackageReference Include="Light.DatabaseAccess.EntityFrameworkCore" Version="1.0.0" />
+        <PackageReference Include="Light.DatabaseAccess.EntityFrameworkCore" />
     </ItemGroup>
 
 </Project>
