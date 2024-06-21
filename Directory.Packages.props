@@ -2,13 +2,13 @@
     <PropertyGroup>
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
-    
     <ItemGroup>
         <PackageVersion Include="FluentAssertions" Version="6.12.0" />
         <PackageVersion Include="Light.DataAccessMocks" Version="2.0.0" />
         <PackageVersion Include="Light.DatabaseAccess.EntityFrameworkCore" Version="1.0.0" />
         <PackageVersion Include="Light.SharedCore" Version="2.0.0" />
         <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+        <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
         <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
         <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
         <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />

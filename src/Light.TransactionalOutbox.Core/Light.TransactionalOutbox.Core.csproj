@@ -3,10 +3,12 @@
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
         <IsAotCompatible Condition="'$(TargetFramework)' == 'net8.0'">true</IsAotCompatible>
+        <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Light.SharedCore" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
         <PackageReference Include="Polly.Extensions" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />

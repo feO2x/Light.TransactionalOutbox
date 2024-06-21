@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Retry;
 
@@ -37,10 +38,10 @@ public static class TransactionalOutboxModule
         services
            .AddOptions<OutboxProcessorOptions>()
            .BindConfiguration(configSectionPath)
-           .ValidateDataAnnotations()
            .ValidateOnStart();
 
         return services
+           .AddSingleton<IValidateOptions<OutboxProcessorOptions>, OutboxProcessorOptionsValidator>()
            .AddSingleton<OutboxProcessor<TOutboxItem>>()
            .AddSingleton<IOutboxProcessor>(sp => sp.GetRequiredService<OutboxProcessor<TOutboxItem>>())
            .AddSingleton<IOutboxTrigger>(sp => sp.GetRequiredService<OutboxProcessor<TOutboxItem>>())
