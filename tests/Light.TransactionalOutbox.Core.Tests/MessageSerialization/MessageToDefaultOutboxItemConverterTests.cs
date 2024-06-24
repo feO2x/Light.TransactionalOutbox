@@ -50,7 +50,7 @@ public sealed class MessageToDefaultOutboxItemConverterTests
             MessageType = typeof(MyMessage).GetCustomAttribute<MessageTypeAttribute>()!.PrimaryName,
             CorrelationId = outboxItem.CorrelationId.MustNotBe(Guid.Empty),
             CreatedAtUtc = _timeProvider.GetUtcNow().UtcDateTime,
-            MessageAsJson = JsonSerializer.Serialize(message, _jsonOptions)
+            SerializedMessage = JsonSerializer.Serialize(message, _jsonOptions)
         };
         outboxItem.Should().BeEquivalentTo(
             expectedOutboxItem,
@@ -70,7 +70,7 @@ public sealed class MessageToDefaultOutboxItemConverterTests
             MessageType = typeof(MySecondMessage).GetCustomAttribute<MessageTypeAttribute>()!.PrimaryName,
             CorrelationId = message.CorrelationId,
             CreatedAtUtc = _timeProvider.GetUtcNow().UtcDateTime,
-            MessageAsJson = JsonSerializer.Serialize(message, _jsonOptions)
+            SerializedMessage = JsonSerializer.Serialize(message, _jsonOptions)
         };
         outboxItem.Should().BeEquivalentTo(
             expectedOutboxItem,
