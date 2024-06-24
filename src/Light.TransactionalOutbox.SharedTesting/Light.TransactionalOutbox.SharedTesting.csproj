@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Light.TransactionalOutbox.Core\Light.TransactionalOutbox.Core.csproj" />
+        <PackageReference Include="Light.DataAccessMocks" />
+        <PackageReference Include="FluentAssertions" />
+        <PackageReference Include="IsExternalInit" />
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" />
+    </ItemGroup>
+
+</Project>

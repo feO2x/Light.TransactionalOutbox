@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Light.TransactionalOutbox.Core.Tests.OutboxProcessing;
+namespace Light.TransactionalOutbox.SharedTesting.OutboxProcessing;
 
 [Flags]
 public enum OutboxFailure

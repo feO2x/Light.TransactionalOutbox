@@ -1,10 +1,11 @@
 using System;
 using System.Text.Json.Serialization;
+using Light.TransactionalOutbox.Core;
 using Light.TransactionalOutbox.Core.MessageSerialization;
 
 // ReSharper disable NotAccessedPositionalProperty.Global -- just for testing purposes
 
-namespace Light.TransactionalOutbox.Core.Tests;
+namespace Light.TransactionalOutbox.SharedTesting;
 
 [MessageType("MyMessage")]
 public sealed record MyMessage(Guid Id, string Content);

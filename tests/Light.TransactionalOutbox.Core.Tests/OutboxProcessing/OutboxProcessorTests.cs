@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Light.TransactionalOutbox.Core.OutboxProcessing;
+using Light.TransactionalOutbox.SharedTesting;
+using Light.TransactionalOutbox.SharedTesting.OutboxProcessing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;

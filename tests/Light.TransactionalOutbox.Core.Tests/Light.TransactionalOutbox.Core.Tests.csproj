@@ -8,8 +8,8 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\Light.TransactionalOutbox.Core\Light.TransactionalOutbox.Core.csproj" />
+        <ProjectReference Include="..\..\src\Light.TransactionalOutbox.SharedTesting\Light.TransactionalOutbox.SharedTesting.csproj" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-        <PackageReference Include="Light.DataAccessMocks" />
         <PackageReference Include="Microsoft.Extensions.Configuration" />
         <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
     </ItemGroup>

@@ -4,6 +4,7 @@ using System.Text.Json;
 using FluentAssertions;
 using Light.GuardClauses;
 using Light.TransactionalOutbox.Core.MessageSerialization;
+using Light.TransactionalOutbox.SharedTesting;
 using Microsoft.Extensions.Time.Testing;
 using Xunit;
 
@@ -17,7 +18,7 @@ public sealed class MessageToDefaultOutboxItemConverterTests
 
     public MessageToDefaultOutboxItemConverterTests()
     {
-        var messageTypes = MessageTypes.CreateDefault();
+        var messageTypes = MessageTypes.CreateDefault(typeof(MyMessage).Assembly);
         _jsonOptions = new JsonSerializerOptions();
         _jsonOptions.TypeInfoResolverChain.Insert(0, MessagesJsonSerializerContext.Default);
         

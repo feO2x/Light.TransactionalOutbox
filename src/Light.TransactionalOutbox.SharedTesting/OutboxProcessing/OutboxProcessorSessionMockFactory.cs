@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using Light.TransactionalOutbox.Core;
 
-namespace Light.TransactionalOutbox.Core.Tests.OutboxProcessing;
+namespace Light.TransactionalOutbox.SharedTesting.OutboxProcessing;
 
 public sealed class OutboxProcessorSessionMockFactory
 {
