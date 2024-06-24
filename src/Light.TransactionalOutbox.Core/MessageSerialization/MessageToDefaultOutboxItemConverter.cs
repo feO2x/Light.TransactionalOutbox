@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Light.GuardClauses;
 
@@ -6,6 +7,8 @@ namespace Light.TransactionalOutbox.Core.MessageSerialization;
 
 public sealed class MessageToDefaultOutboxItemConverter : IMessageToOutboxItemConverter<DefaultOutboxItem>
 {
+    private const string NativeAotMessage =
+        "Please make sure that the JsonSerializerOptions passed to this converter incorporate System.Text.Json source generators in AOT scenarios. See https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation for more information.";
     private readonly MessageTypes _messageTypes;
     private readonly JsonSerializerOptions _options;
     private readonly TimeProvider _timeProvider;
@@ -21,6 +24,10 @@ public sealed class MessageToDefaultOutboxItemConverter : IMessageToOutboxItemCo
         _options = options;
     }
 
+#if NET8_0_OR_GREATER
+    [RequiresUnreferencedCode(NativeAotMessage)]
+    [RequiresDynamicCode(NativeAotMessage)]
+#endif
     public DefaultOutboxItem Convert(object message)
     {
         message.MustNotBeNull();
@@ -41,7 +48,7 @@ public sealed class MessageToDefaultOutboxItemConverter : IMessageToOutboxItemCo
             MessageType = messageType,
             CorrelationId = correlationId,
             CreatedAtUtc = _timeProvider.GetUtcNow().UtcDateTime,
-            MessageAsJson = JsonSerializer.Serialize(message, dotnetType, _options)
+            SerializedMessage = JsonSerializer.Serialize(message, dotnetType, _options)
         };
     }
 }
